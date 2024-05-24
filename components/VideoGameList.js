@@ -86,7 +86,6 @@ const VideoGameList = () => {
       )}
     </div>
   );
-  
 };
 
 export default VideoGameList;

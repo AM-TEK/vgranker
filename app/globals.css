@@ -5,3 +5,40 @@
 .dragging {
   opacity: 0.5;
 }
+
+.bg-genesis-custom-gradient {
+  background: linear-gradient(to bottom left, #000002, #cdd1dc, #0f2560);
+}
+.bg-snes-custom-gradient {
+  background: linear-gradient(to bottom left, #9898ad, #a49ed1, #4b287f);
+}
+.bg-n64-custom-gradient {
+  background: linear-gradient(to bottom left, #03379d, #f8c51e, #047041);
+}
+.bg-gamecube-custom-gradient {
+  background: linear-gradient(to bottom left, #dddfde, #ecedee, #6c5ab6);
+}
+.bg-ps2-custom-gradient {
+  background: linear-gradient(to bottom left, #49429a, #f9f9fb, #0ab3f0);
+}
+.bg-windowspc-custom-gradient {
+  background: linear-gradient(to bottom left, #d8690c, #9bc46e, #5588be);
+}
+.bg-nes-custom-gradient {
+  background: linear-gradient(to bottom left, #7a7a7a, #d0cccb, #c4381b);
+}
+.bg-gba-custom-gradient {
+  background: linear-gradient(to bottom left, #404a92, #c2c9dc, #18212b);
+}
+.bg-ps3-custom-gradient {
+  background: linear-gradient(to bottom left, #f2c300, #01ab9f, #2e6db3);
+}
+.bg-xbox-custom-gradient {
+  background: linear-gradient(to bottom left, #0b6400, #f5ef53, #6cb517);
+}
+.bg-xbox360-custom-gradient {
+  background: linear-gradient(to bottom left, #97cc4c, #5ab04f, #7e7c7d);
+}
+.bg-dreamcast-custom-gradient {
+  background: linear-gradient(to bottom left, #a0a0a2, #027ba6, #e06a2e);
+}

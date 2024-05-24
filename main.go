@@ -12,31 +12,33 @@ type videoGame struct{
 	ID				string	`json:"id"`
 	Title			string	`json:"title"`
 	Developer	string	`json:"developer"`
+	Platform	string	`json:"platform"`
 	Year			int			`json:"year"`
 }
 
 //Initialize a slice of 'videoGames' containing instances of video game struct
 var videoGames = []videoGame{
-	{ID: "1", Title: "Sonic the Hedgehog", Developer: "Sega", Year: 1991},
-	{ID: "2", Title: "The Legend of Zelda: Link's Awakening", Developer: "Nintendo", Year: 1993},
-	{ID: "3", Title: "GoldenEye 007", Developer: "Rare", Year: 1997},
-	{ID: "4", Title: "Metroid Prime", Developer: "Retro Studios", Year: 2002},
-	{ID: "5", Title: "Shadow of the Colossus", Developer: "Japan Studio and Team Ico", Year: 2005},
-	// {ID: "6", Title: "Super Mario Bros. 3", Developer: "Nintendo", Year: 1990},
-	// {ID: "7", Title: "Streets of Rage 2", Developer: "Sega", Year: 1992},
-	// {ID: "8", Title: "World Series Baseball", Developer: "BlueSky Software", Year: 1994},
-	// {ID: "9", Title: "Killer Instinct", Developer: "Rare", Year: 1995},
-	// {ID: "10", Title: "Mario Kart 64", Developer: "Nintendo", Year: 1996},
-	// {ID: "11", Title: "Half-Life", Developer: "Valve Corporation", Year: 1998},
-	// {ID: "12", Title: "Super Smash Bros", Developer: "HAL Laboratory", Year: 1999},
-	// {ID: "13", Title: "Power Stone 2", Developer: "Capcom", Year: 2000},
-	// {ID: "14", Title: "Halo", Developer: "Bungie Inc.", Year: 2001},
-	// {ID: "15", Title: "Star Wars: KOTOR", Developer: "BioWare", Year: 2003},
-	// {ID: "16", Title: "Metroid: Zero Mission", Developer: "Nintendo R&D1", Year: 2004},
-	// {ID: "17", Title: "Dead Rising", Developer: "Capcom", Year: 2006},
-	// {ID: "18", Title: "Call of Duty 4: Modern Warfare", Developer: "Infinity Ward", Year: 2007},
-	// {ID: "19", Title: "Fallout 3", Developer: "Bethesda Game Studios", Year: 2008},
-	// {ID: "20", Title: "Uncharted 2: Among Thieves", Developer: "Naughty Dog", Year: 2009},
+	{ID: "1", Title: "Sonic the Hedgehog", Developer: "Sega", Platform: "Genesis", Year: 1991},
+	{ID: "2", Title: "The Legend of Zelda: Link's Awakening", Developer: "Nintendo", Platform: "SNES", Year: 1993},
+	{ID: "3", Title: "GoldenEye 007", Developer: "Rare", Platform: "N64", Year: 1997},
+	{ID: "4", Title: "Metroid Prime", Developer: "Retro Studios", Platform: "Gamecube", Year: 2002},
+	{ID: "5", Title: "Shadow of the Colossus", Developer: "Japan Studio and Team Ico", Platform: "PS2", Year: 2005},
+
+	{ID: "6", Title: "Super Mario Bros. 3", Developer: "Nintendo", Platform: "NES", Year: 1990},
+	{ID: "7", Title: "Streets of Rage 2", Developer: "Sega", Platform: "Genesis", Year: 1992},
+	{ID: "8", Title: "World Series Baseball", Developer: "BlueSky Software", Platform: "Genesis", Year: 1994},
+	{ID: "9", Title: "Killer Instinct", Developer: "Rare", Platform: "SNES", Year: 1995},
+	{ID: "10", Title: "Mario Kart 64", Developer: "Nintendo", Platform: "N64", Year: 1996},
+	{ID: "11", Title: "Half-Life", Developer: "Valve Corporation", Platform: "WindowsPC", Year: 1998},
+	{ID: "12", Title: "Super Smash Bros", Developer: "HAL Laboratory", Platform: "N64", Year: 1999},
+	{ID: "13", Title: "Power Stone 2", Developer: "Capcom", Platform: "Dreamcast", Year: 2000},
+	{ID: "14", Title: "Halo", Developer: "Bungie Inc.", Platform: "Xbox", Year: 2001},
+	{ID: "15", Title: "Star Wars: KOTOR", Developer: "BioWare", Platform: "Xbox", Year: 2003},
+	{ID: "16", Title: "Metroid: Zero Mission", Developer: "Nintendo R&D1", Platform: "GameboyAdvance", Year: 2004},
+	{ID: "17", Title: "Dead Rising", Developer: "Capcom", Platform: "Xbox360", Year: 2006},
+	{ID: "18", Title: "Call of Duty 4: Modern Warfare", Developer: "Infinity Ward", Platform: "PS3", Year: 2007},
+	{ID: "19", Title: "Fallout 3", Developer: "Bethesda Game Studios", Platform: "WindowsPC", Year: 2008},
+	{ID: "20", Title: "Uncharted 2: Among Thieves", Developer: "Naughty Dog", Platform: "PS3", Year: 2009},
 }
 //Handles the `GET /videoGames` endpoint by returning the list of all video games
 func getVideoGames(c *gin.Context) {
