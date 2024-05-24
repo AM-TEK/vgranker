@@ -114,8 +114,6 @@ const VideoGameForm = ({ videoGames, setVideoGames }) => {
   };
 
   return (
-    
-
     <form onSubmit={handleSubmit} className="max-w-md mx-auto">
       <div className="mb-4">
         <div className='w-1/4'>
@@ -134,7 +132,6 @@ const VideoGameForm = ({ videoGames, setVideoGames }) => {
                 {index + 1}
               </option>
             ))}
-            
           </select>
         </div>
       </div>

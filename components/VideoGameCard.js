@@ -1,5 +1,5 @@
 
-const VideoGameCard = ({ videoGames, onClick }) => {
+const VideoGameCard = ({ videoGames, onClick, onSortClick }) => {
   const getPlatformGradientClass = (platform) => {
     switch (platform) {
       case 'NES':
@@ -44,6 +44,18 @@ const VideoGameCard = ({ videoGames, onClick }) => {
             <p className="text-sm font-bold">{videoGame.platform}</p>
             <p className="text-sm font-bold">{videoGame.year}</p>
           </div>
+          {/* <button
+            className="absolute bottom-2 left-2 bg-gray-800 text-white px-2 py-1 rounded-md text-sm"
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent the card click event from firing
+              // Sort the video game to the top of the list
+              // You can implement the sorting logic here
+              onSortClick(index);
+            }}
+          >
+            Sort to Top
+          </button> */}
+
         </div>
       ))}
     </div>
