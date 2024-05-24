@@ -6,7 +6,11 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'gradient-grid': "url('/gradient-grid-bg.jpg')",
+      },
+    },
   },
   plugins: [],
 };

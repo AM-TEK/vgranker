@@ -37,12 +37,13 @@ const VideoGameCard = ({ videoGames, onClick }) => {
           key={index} 
           onClick={() => onClick(videoGame)}
           draggable="true"
-          className={`w-4/5 p-2 text-black border border-gray-400 rounded-md cursor-move draggable justify-self-center ${getPlatformGradientClass(videoGame.platform)}`}>
-
+          className={`relative flex flex-col min-h-[120px] w-4/5 p-2 text-black border border-gray-400 rounded-md cursor-move draggable justify-self-center ${getPlatformGradientClass(videoGame.platform)}`}>
             <h2 className="font-bold text-md">{videoGame.title}</h2>
+            <div className="absolute bottom-2 right-2 text-right">
             <p className="text-sm font-bold">{videoGame.developer}</p>
             <p className="text-sm font-bold">{videoGame.platform}</p>
             <p className="text-sm font-bold">{videoGame.year}</p>
+          </div>
         </div>
       ))}
     </div>
