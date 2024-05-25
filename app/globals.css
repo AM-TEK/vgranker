@@ -7,7 +7,7 @@
 }
 
 .bg-genesis-custom-gradient {
-  background: linear-gradient(to bottom left, #000002, #cdd1dc, #0f2560);
+  background: linear-gradient(to bottom left,#0f2560, #cdd1dc, #000002);
 }
 .bg-snes-custom-gradient {
   background: linear-gradient(to bottom left, #9898ad, #a49ed1, #4b287f);

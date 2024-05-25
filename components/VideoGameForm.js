@@ -43,6 +43,7 @@ const VideoGameForm = ({ videoGames, setVideoGames }) => {
         developer: '',
         year: '',
       });
+      setNumGames(1);
       setListName('');
     } else {
       alert('Title is required');

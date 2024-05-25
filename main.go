@@ -22,7 +22,7 @@ var videoGames = []videoGame{
 	{ID: "2", Title: "The Legend of Zelda: Link's Awakening", Developer: "Nintendo", Platform: "SNES", Year: 1993},
 	{ID: "3", Title: "GoldenEye 007", Developer: "Rare", Platform: "N64", Year: 1997},
 	{ID: "4", Title: "Metroid Prime", Developer: "Retro Studios", Platform: "Gamecube", Year: 2002},
-	{ID: "5", Title: "Shadow of the Colossus", Developer: "Japan Studio and Team Ico", Platform: "PS2", Year: 2005},
+	{ID: "5", Title: "Shadow of the Colossus", Developer: "Japan Studio & Team Ico", Platform: "PS2", Year: 2005},
 
 	{ID: "6", Title: "Super Mario Bros. 3", Developer: "Nintendo", Platform: "NES", Year: 1990},
 	{ID: "7", Title: "Streets of Rage 2", Developer: "Sega", Platform: "Genesis", Year: 1992},
