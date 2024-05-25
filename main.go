@@ -1,6 +1,8 @@
 package main
+
 import (
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-contrib/cors"
@@ -15,6 +17,27 @@ type videoGame struct{
 	Platform	string	`json:"platform"`
 	Year			int			`json:"year"`
 }
+
+type savedList struct {
+	ID        string      `json:"id"`
+	Name      string      `json:"name"`
+	VideoGames []videoGame `json:"videoGames"`
+}
+
+var savedLists = []savedList{}
+
+func saveVideoGameList(c *gin.Context) {
+	var newList savedList
+	if err := c.BindJSON(&newList); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	// Assign an ID to the new list (for simplicity, using a string representation of length)
+	newList.ID = fmt.Sprintf("%d", len(savedLists)+1)
+	savedLists = append(savedLists, newList)
+	c.IndentedJSON(http.StatusCreated, newList)
+}
+
 
 //Initialize a slice of 'videoGames' containing instances of video game struct
 var videoGames = []videoGame{
@@ -74,6 +97,7 @@ func main() {
 
 	router.GET("/videoGames", getVideoGames)
 	router.GET("/videoGames/:id", videoGameById)
+	router.POST("/saveVideoGameList", saveVideoGameList)
 	
 	router.Run("localhost:8082")
 }

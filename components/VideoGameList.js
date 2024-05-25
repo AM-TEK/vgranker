@@ -1,11 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
 import VideoGameCard from './VideoGameCard';
 import VideoGameForm from './VideoGameForm';
-import VideoGameModal from './VideoGameModal';
+// import VideoGameModal from './VideoGameModal';
 
 const VideoGameList = () => {
   const [videoGames, setVideoGames] = useState([]);
-  const [selectedVideoGame, setSelectedVideoGame] = useState(null);
   const [isFormVisible, setIsFormVisible] = useState(false);
 
   const draggablesRef = useRef([]);
@@ -17,6 +16,10 @@ const VideoGameList = () => {
       .then(data => setVideoGames(data));
   }, []);
 
+  useEffect(() => {
+    saveVideoGameList();
+  }, [videoGames]);
+  
   useEffect(() => {
     draggablesRef.current = document.querySelectorAll(".draggable");
     containersRef.current = document.querySelectorAll(".container");
@@ -59,25 +62,43 @@ const VideoGameList = () => {
     }, {offset: Number.NEGATIVE_INFINITY}).element
   }
 
-  const handleVideoGameClick = (videoGame) => {
-    setSelectedVideoGame(videoGame);
-  };
-
-  // const handleSortToTop = (index) => {
-  //   const updatedVideoGames = [...videoGames]; // Create a copy of the current list
-  //   const selectedVideoGame = updatedVideoGames.splice(index, 1)[0]; // Remove the clicked video game from the list
-  //   updatedVideoGames.unshift(selectedVideoGame); // Insert the clicked video game at the beginning of the list
-  //   setVideoGames(updatedVideoGames); // Update the state with the new sorted list
-  // };
-  
-  const closeModal = () => {
-    setSelectedVideoGame(null);
-  };
-
   const toggleFormVisibility = () => {
     setIsFormVisible(!isFormVisible);
   };
 
+  const saveVideoGameList = () => {
+    // Convert the ids to strings
+    const videoGamesWithIdsAsString = videoGames.map(vg => ({
+      ...vg,
+      id: String(vg.id)
+    }));
+    console.log('Sending videoGames:', videoGamesWithIdsAsString);
+
+    fetch('http://localhost:8082/saveVideoGameList', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: 'My Saved List',
+        videoGames: videoGamesWithIdsAsString,
+      }),
+    })
+      .then(async response => {
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.error);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('List saved:', data);
+      })
+      .catch(error => {
+        console.error('Error:', error.message);
+      });
+  };
+  
   return (
     <div className="flex justify-center">
       <div className="flex flex-col lg:flex-row w-2/3 max-h-screen py-4 overflow-y-auto bg-gray-300 rounded-lg">
@@ -87,6 +108,12 @@ const VideoGameList = () => {
             className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >
             {isFormVisible ? 'Hide Form' : 'Show Form'}
+          </button>
+          <button
+            onClick={saveVideoGameList}
+            className="mb-4 ml-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+          >
+            Save List
           </button>
           {isFormVisible && (
             <VideoGameForm
@@ -98,17 +125,9 @@ const VideoGameList = () => {
         <div className="w-full lg:w-2/3 p-4">
           <VideoGameCard 
             videoGames={videoGames}
-            onClick={handleVideoGameClick}
           />
         </div>
       </div>
-      {selectedVideoGame && (
-        <VideoGameModal
-          videoGame={selectedVideoGame}
-          isOpen={Boolean(selectedVideoGame)}
-          onClose={closeModal}
-        />
-      )}
     </div>
   );
 };
