@@ -1,17 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid'; // Import UUID library
 
-const VideoGameForm = ({ videoGames, setVideoGames }) => {
+const VideoGameForm = ({ videoGames, onFormSubmit }) => {
   const [formData, setFormData] = useState({
     title: '',
     developer: '',
     year: '',
+    platform: '', // Add platform to formData
   });
   const [numGames, setNumGames] = useState(1);
   const [listName, setListName] = useState('');
-
-  useEffect(() => {
-    setListName('VGs: 1990-2009');
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,17 +29,38 @@ const VideoGameForm = ({ videoGames, setVideoGames }) => {
       }
     }
     if (isFormValid) {
-      const newGames = Array.from({ length: numGames }, (_, index) => ({
-        id: videoGames.length + index + 1,
-        title: formData[`title${index}`],
-        developer: formData[`developer${index}`],
-        year: formData[`year${index}`],
-      }));
-      setVideoGames(newGames);
+      const newGames = Array.from({ length: numGames }, (_, index) => {
+        const title = formData[`title${index}`];
+        const developer = formData[`developer${index}`];
+        const year = parseInt(formData[`year${index}`], 10);
+        const platform = formData[`platform${index}`];
+
+        // Debugging: Log values before creating the new game object
+        console.log({ title, developer, year, platform });
+
+        // Parse year as integer if provided and valid
+        const parsedYear = typeof year === 'string' && year.trim() !== '' ? parseInt(year, 10) : null;
+        if (typeof year === 'string' && year.trim() !== '' && isNaN(parsedYear)) {
+          alert('Year must be a number');
+          throw new Error('Year must be a number');
+        }
+        
+
+        return {
+          id: uuidv4(), // Generate a unique ID for each new game
+          title,
+          developer,
+          year: parsedYear,
+          platform,
+        };
+      }).filter(game => game !== null); // Filter out any invalid game objects
+
+      onFormSubmit(newGames); // Append new games to the existing list
       setFormData({
         title: '',
         developer: '',
         year: '',
+        platform: '', // Reset platform
       });
       setNumGames(1);
       setListName('');
@@ -49,10 +68,11 @@ const VideoGameForm = ({ videoGames, setVideoGames }) => {
       alert('Title is required');
     }
   };
-  
+
   const handleNumGamesChange = (e) => {
-    setNumGames(parseInt(e.target.value, 10));
-  };
+    const value = e.target.value;
+    setNumGames(value === '' ? '' : parseInt(value, 10));
+  };  
 
   const renderGameInputs = () => {
     return Array.from({ length: numGames }).map((_, index) => (
@@ -73,7 +93,7 @@ const VideoGameForm = ({ videoGames, setVideoGames }) => {
         </div>
         <div className='w-1/2'>
           <label htmlFor={`developer${index}`} className="block text-sm font-medium text-gray-700">
-            {index + 1}: Developer 
+            {index + 1}: Developer
           </label>
           <input
             type="text"
@@ -127,7 +147,7 @@ const VideoGameForm = ({ videoGames, setVideoGames }) => {
             value={numGames}
             onChange={handleNumGamesChange}
             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            >
+          >
             {[...Array(20)].map((_, index) => (
               <option key={index} value={index + 1}>
                 {index + 1}
@@ -170,3 +190,4 @@ const VideoGameForm = ({ videoGames, setVideoGames }) => {
 };
 
 export default VideoGameForm;
+
