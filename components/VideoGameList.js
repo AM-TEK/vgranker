@@ -5,6 +5,7 @@ import useDragAndDrop from '../hooks/useDragAndDrop';
 
 const VideoGameList = () => {
   const [videoGames, setVideoGames] = useState([]);
+  const [listName, setListName] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -41,9 +42,10 @@ const VideoGameList = () => {
     return <div>Error: {error}</div>;
   }
 
-  const handleFormSubmit = (newVideoGames) => {
+  const handleFormSubmit = (newVideoGames, newListName) => {
     setVideoGames(newVideoGames);
     setIsFormVisible(false);
+    setListName(newListName);
   };
   
   const saveListOrder = () => {
@@ -67,6 +69,13 @@ const VideoGameList = () => {
     <div className="flex justify-center">
       <div className="flex flex-col w-2/3 max-h-screen py-4 overflow-y-auto bg-gray-300 rounded-lg lg:flex-row">
         <div className="w-full p-4 lg:w-4/5">
+          {listName && (
+            <div className='mb-4 text-center'>
+              <h2 className="mt-4 text-xl font-semibold">
+                {listName}
+              </h2>
+            </div>
+          )}
           <button
             onClick={toggleFormVisibility}
             className="px-4 py-2 mb-4 text-white bg-black border rounded hover:bg-gray-600"

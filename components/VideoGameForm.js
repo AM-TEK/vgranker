@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid'; // Import UUID library
+import { v4 as uuidv4 } from 'uuid';
 
 const VideoGameForm = ({ videoGames, onFormSubmit }) => {
   const [formData, setFormData] = useState({
     title: '',
     developer: '',
     year: '',
-    platform: '', // Add platform to formData
+    platform: '',
   });
-  const [numGames, setNumGames] = useState(1);
+  const [numVideoGames, setnumVideoGames] = useState(1);
   const [listName, setListName] = useState('');
 
   const handleChange = (e) => {
@@ -22,60 +22,56 @@ const VideoGameForm = ({ videoGames, onFormSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     let isFormValid = true;
-    for (let i = 0; i < numGames; i++) {
+    for (let i = 0; i < numVideoGames; i++) {
       if (formData[`title${i}`].trim() === '') {
         isFormValid = false;
         break;
       }
     }
     if (isFormValid) {
-      const newGames = Array.from({ length: numGames }, (_, index) => {
+      const newVideoGames = Array.from({ length: numVideoGames }, (_, index) => {
         const title = formData[`title${index}`];
         const developer = formData[`developer${index}`];
-        const year = parseInt(formData[`year${index}`], 10);
+        const yearValue = formData[`year${index}`];
         const platform = formData[`platform${index}`];
 
-        // Debugging: Log values before creating the new game object
-        console.log({ title, developer, year, platform });
-
-        // Parse year as integer if provided and valid
-        const parsedYear = typeof year === 'string' && year.trim() !== '' ? parseInt(year, 10) : null;
-        if (typeof year === 'string' && year.trim() !== '' && isNaN(parsedYear)) {
+        // Directly parse the year from the form data and validate
+        const year = yearValue ? parseInt(yearValue, 10) : null;
+        if (yearValue && isNaN(year)) {
           alert('Year must be a number');
           throw new Error('Year must be a number');
         }
-        
 
         return {
-          id: uuidv4(), // Generate a unique ID for each new game
+          id: uuidv4(),
           title,
           developer,
-          year: parsedYear,
+          year,
           platform,
         };
-      }).filter(game => game !== null); // Filter out any invalid game objects
+      }).filter(game => game !== null);
 
-      onFormSubmit(newGames); // Append new games to the existing list
+      onFormSubmit(newVideoGames, listName);
       setFormData({
         title: '',
         developer: '',
         year: '',
-        platform: '', // Reset platform
+        platform: '',
       });
-      setNumGames(1);
+      setnumVideoGames(1);
       setListName('');
     } else {
       alert('Title is required');
     }
   };
 
-  const handleNumGamesChange = (e) => {
+  const handleNumVideoGamesChange = (e) => {
     const value = e.target.value;
-    setNumGames(value === '' ? '' : parseInt(value, 10));
+    setnumVideoGames(value === '' ? '' : parseInt(value, 10));
   };  
 
   const renderGameInputs = () => {
-    return Array.from({ length: numGames }).map((_, index) => (
+    return Array.from({ length: numVideoGames }).map((_, index) => (
       <div key={index} className='mb-5'>
         <div className='w-1/2'>
           <label htmlFor={`title${index}`} className="block text-sm font-medium text-gray-700">
@@ -136,16 +132,23 @@ const VideoGameForm = ({ videoGames, onFormSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+      {listName && 
+        <div className='mb-4 text-center'>
+          <h2 className="mt-4 text-xl font-semibold">
+            {listName}
+          </h2>
+        </div>
+      }
       <div className="mb-4">
         <div className='w-1/4'>
-          <label htmlFor="numGames" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="numVideoGames" className="block text-sm font-medium text-gray-700">
             Number of Video Games <span className="text-red-500">*</span>
           </label>
           <select
-            id="numGames"
-            name="numGames"
-            value={numGames}
-            onChange={handleNumGamesChange}
+            id="numVideoGames"
+            name="numVideoGames"
+            value={numVideoGames}
+            onChange={handleNumVideoGamesChange}
             className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
             {[...Array(20)].map((_, index) => (
@@ -178,13 +181,6 @@ const VideoGameForm = ({ videoGames, onFormSubmit }) => {
       >
         Add List
       </button>
-      <div className='text-center mb-4'>
-        {listName && 
-          <h2 className="text-xl font-semibold mt-4">
-            {listName}
-          </h2>
-        }
-      </div>
     </form>
   );
 };
