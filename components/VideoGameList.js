@@ -9,9 +9,10 @@ const VideoGameList = () => {
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
-    fetch('http://localhost:8082/videoGames')
+    fetch(`${apiUrl}/videoGames`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
