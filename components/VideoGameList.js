@@ -10,6 +10,7 @@ const VideoGameList = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  console.log('API URL:', apiUrl);
 
   useEffect(() => {
     fetch(`${apiUrl}/videoGames`)
