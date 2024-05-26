@@ -81,5 +81,5 @@ func main() {
 	router.GET("/videoGames/:id", videoGameById)
 	router.POST("/saveVideoGames", saveVideoGames)
 
-	router.Run("localhost:8082")
+	router.Run(":8082")
 }
