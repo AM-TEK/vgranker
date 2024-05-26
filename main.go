@@ -2,7 +2,9 @@ package main
 
 import (
 	"errors"
+	"log"
 	"net/http"
+
 	// "strings"
 
 	"github.com/gin-contrib/cors"
@@ -31,6 +33,7 @@ var videoGames = []videoGame{
 }
 
 func getVideoGames(c *gin.Context) {
+	log.Println("GET /videoGames called")
 	c.IndentedJSON(http.StatusOK, videoGames)
 }
 
