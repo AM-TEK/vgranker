@@ -3,6 +3,8 @@ package main
 import (
 	"errors"
 	"net/http"
+	"os"
+
 	// "strings"
 
 	"github.com/gin-contrib/cors"
@@ -70,6 +72,7 @@ func main() {
 	config.AllowOrigins = []string{
 		"http://localhost:3000",
 		"https://videogame-ranker.vercel.app",
+		"https://vgranker-production.up.railway.app",
 	}
 	// Allow all methods, headers, and credentials for your requests.
 	config.AllowMethods = []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}
@@ -81,5 +84,10 @@ func main() {
 	router.GET("/videoGames/:id", videoGameById)
 	router.POST("/saveVideoGames", saveVideoGames)
 
-	router.Run("localhost:8082")
+	port := os.Getenv("PORT")
+    if port == "" {
+        port = "8080"
+    }
+    router.Run(":" + port)
+
 }
