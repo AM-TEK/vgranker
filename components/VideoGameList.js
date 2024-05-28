@@ -2,16 +2,17 @@ import { useEffect, useState } from 'react';
 import VideoGameCard from './VideoGameCard';
 import VideoGameForm from './VideoGameForm';
 import useDragAndDrop from '../hooks/useDragAndDrop';
+import useMoveToTop from '@/hooks/useMoveToTop';
 import videoGamesData from '../lib/data'
 
 const VideoGameList = () => {
   const [videoGames, setVideoGames] = useState([]);
+  const [listName, setListName] = useState('');
+  const [isFormVisible, setIsFormVisible] = useState(false);
   // const [videoGames, setVideoGames] = useState(() => {
   //   const savedVideoGames = localStorage.getItem('videoGames');
   //   return savedVideoGames ? JSON.parse(savedVideoGames) : videoGamesData;
   // });
-  const [listName, setListName] = useState('');
-  const [isFormVisible, setIsFormVisible] = useState(false);
   // const [loading, setLoading] = useState(true);
   // const [error, setError] = useState(null);
   // const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -82,6 +83,21 @@ const VideoGameList = () => {
     // localStorage.setItem('videoGames', JSON.stringify(videoGames));
   };
 
+  const moveCardToTop = (id) => {
+    setVideoGames((prevVideoGames) => {
+      const cardIndex = prevVideoGames.findIndex((card) => card.id === id);
+      if (cardIndex === -1) return prevVideoGames;
+  
+      const card = prevVideoGames[cardIndex];
+      const updatedVideoGames = [
+        card,
+        ...prevVideoGames.slice(0, cardIndex),
+        ...prevVideoGames.slice(cardIndex + 1),
+      ];
+      return updatedVideoGames;
+    });
+  };
+  
 
   return (
     <div className="flex justify-center">
@@ -117,6 +133,7 @@ const VideoGameList = () => {
           <VideoGameCard 
             videoGames={videoGames}
             onClick={() => {}}
+            onMoveToTop={moveCardToTop}
           />
         </div>
       </div>

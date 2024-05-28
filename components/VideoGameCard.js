@@ -1,3 +1,5 @@
+import { FaArrowUp } from 'react-icons/fa';
+
 const getPlatformGradientClass = (platform) => {
   switch (platform) {
     case 'NES':
@@ -29,7 +31,7 @@ const getPlatformGradientClass = (platform) => {
   }
 };
 
-const VideoGameCard = ({ videoGames = [], onClick }) => {
+const VideoGameCard = ({ videoGames = [], onClick, onMoveToTop }) => {
   if (!videoGames || videoGames.length === 0) {
     return <p>No video games found.</p>;
   }
@@ -49,6 +51,15 @@ const VideoGameCard = ({ videoGames = [], onClick }) => {
               <p className="text-sm">{videoGame.platform}</p>
               <p className="text-sm">{videoGame.year}</p>
             </div>
+            <button
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent click on the button from triggering the card's click event
+                onMoveToTop(videoGame.id);
+              }}
+              className="absolute p-1 bg-gray-200 rounded-full bottom-2 left-2"
+            >
+              <FaArrowUp />
+            </button>
         </div>
       ))}
     </div>
