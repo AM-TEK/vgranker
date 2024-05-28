@@ -101,8 +101,8 @@ const VideoGameList = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="flex flex-col w-1/2 max-h-screen py-4 overflow-y-auto bg-gray-300 rounded-lg lg:flex-row">
-        <div className="w-full p-4 lg:w-4/5">
+      <div className="flex flex-col w-full max-w-2xl max-h-screen py-4 overflow-y-auto bg-gray-300 rounded-lg lg:flex-row">
+        <div className="w-full p-4 lg:w-2/5">
           {listName && (
             <div className='mb-4 text-center'>
               <h2 className="mt-4 text-xl font-semibold">
@@ -110,26 +110,38 @@ const VideoGameList = () => {
               </h2>
             </div>
           )}
-          <button
-            onClick={toggleFormVisibility}
-            className="px-4 py-2 mb-4 text-white bg-black border rounded hover:bg-gray-600"
-          >
-            {isFormVisible ? 'Hide Form' : 'Show Form'}
-          </button>
+          
+          <div className="flex justify-center mb-4">
+            <button
+              onClick={toggleFormVisibility}
+              className="px-4 py-2 text-white bg-black border rounded hover:bg-gray-600"
+            >
+              {isFormVisible ? 'Hide Form' : 'Show Form'}
+            </button>
+            
+          </div>
+          
           {isFormVisible && (
-            <VideoGameForm
-              videoGames={videoGames}
-              onFormSubmit={handleFormSubmit}
-            />
-          )}
-          <button
-            onClick={saveListOrder}
-            className="px-4 py-2 mt-4 text-white bg-blue-600 border rounded hover:bg-blue-800"
-          >
-            Save Order
-          </button>
+          <div className="flex justify-center">
+            <div className="w-full lg:w-3/4">
+              <VideoGameForm
+                videoGames={videoGames}
+                onFormSubmit={handleFormSubmit}
+              />
+            </div>
+          </div>
+        )}
+          
         </div>
-        <div className="w-full p-4 lg:w-2/3">
+        <div className="w-full p-4 lg:w-3/5">
+          <div className="flex justify-center mb-4">
+            <button
+              onClick={saveListOrder}
+              className="px-4 py-2 text-white bg-blue-600 border rounded hover:bg-blue-800"
+            >
+              Save List
+            </button>
+          </div>
           <VideoGameCard 
             videoGames={videoGames}
             onClick={() => {}}

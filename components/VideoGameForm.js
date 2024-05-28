@@ -32,6 +32,7 @@ const VideoGameForm = ({ videoGames, onFormSubmit }) => {
         index={index}
         formData={formData}
         handleChange={handleChange}
+        
       />
     ));
   };
@@ -85,17 +86,19 @@ const VideoGameForm = ({ videoGames, onFormSubmit }) => {
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto">
       {listName && 
-        <div className='mb-4 text-center'>
+        <div className="mb-4 text-center">
           <h2 className="mt-4 text-xl font-semibold">
             {listName}
           </h2>
         </div>
       }
+      
       <div className="mb-4">
-        <div className='w-1/4'>
+        <div className="w-full mx-auto">
           <label htmlFor="numVideoGames" className="block text-sm font-medium text-gray-700">
             Number of Video Games <span className="text-red-500">*</span>
           </label>
+          
           <select
             id="numVideoGames"
             name="numVideoGames"
@@ -109,10 +112,12 @@ const VideoGameForm = ({ videoGames, onFormSubmit }) => {
               </option>
             ))}
           </select>
+          
         </div>
       </div>
-      <div className='mb-5'>
-        <div className='w-1/2'>
+      
+      <div className="mb-4">
+        <div className="w-full mx-auto">
           <label htmlFor="listName" className="block text-sm font-medium text-gray-700">
             Video Game List Name
           </label>
