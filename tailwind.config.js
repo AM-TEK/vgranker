@@ -8,7 +8,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'gradient-grid': "url('/gradient-grid-bg.jpg')",
+        'gradient-grid': "url('/vg-holodeck.jpg')",
       },
     },
   },

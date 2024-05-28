@@ -101,7 +101,7 @@ const VideoGameList = () => {
 
   return (
     <div className="flex justify-center">
-      <div className="flex flex-col w-2/3 max-h-screen py-4 overflow-y-auto bg-gray-300 rounded-lg lg:flex-row">
+      <div className="flex flex-col w-1/2 max-h-screen py-4 overflow-y-auto bg-gray-300 rounded-lg lg:flex-row">
         <div className="w-full p-4 lg:w-4/5">
           {listName && (
             <div className='mb-4 text-center'>
