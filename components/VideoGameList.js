@@ -2,19 +2,14 @@ import { useEffect, useState } from 'react';
 import VideoGameCard from './VideoGameCard';
 import VideoGameForm from './VideoGameForm';
 import useDragAndDrop from '../hooks/useDragAndDrop';
-import useMoveToTop from '@/hooks/useMoveToTop';
+import useMoveToTop from '../hooks/useMoveToTop';
 import videoGamesData from '../lib/data'
 
 const VideoGameList = () => {
   const [videoGames, setVideoGames] = useState([]);
   const [listName, setListName] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(false);
-  // const [videoGames, setVideoGames] = useState(() => {
-  //   const savedVideoGames = localStorage.getItem('videoGames');
-  //   return savedVideoGames ? JSON.parse(savedVideoGames) : videoGamesData;
-  // });
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null);
+  const [savedLists, setSavedLists] = useState([]);
   // const apiUrl = process.env.NEXT_PUBLIC_API_URL;
   // console.log('API URL:', apiUrl);
 
@@ -47,13 +42,6 @@ const VideoGameList = () => {
   const toggleFormVisibility = () => {
     setIsFormVisible(!isFormVisible);
   };
-  
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
-  // if (error) {
-  //   return <div>Error: {error}</div>;
-  // }
 
   const handleFormSubmit = (newVideoGames, newListName) => {
     setVideoGames(newVideoGames);
@@ -78,9 +66,26 @@ const VideoGameList = () => {
   //   .catch(error => console.error('Error saving video games:', error));
   // };
 
+  // save json file to local machine
+  // const saveListOrder = () => {
+  //   console.log('Video games order before saving:', videoGames);
+  //   const jsonData = JSON.stringify(videoGames, null, 2);
+  //   const blob = new Blob([jsonData], { type: 'application/json' });
+  //   const url = URL.createObjectURL(blob);
+  //   const a = document.createElement('a');
+  //   a.href = url;
+  //   a.download = 'videoGames.json';
+  //   document.body.appendChild(a);
+  //   a.click();
+  //   document.body.removeChild(a);
+  //   URL.revokeObjectURL(url);
+  // };
+  
   const saveListOrder = () => {
-    console.log('Video games order before saving:', videoGames);
-    // localStorage.setItem('videoGames', JSON.stringify(videoGames));
+    const jsonData = JSON.stringify(videoGames, null, 2);
+    const newList = { name: listName, index: savedLists.length };
+    setSavedLists([...savedLists, newList]);
+    localStorage.setItem(`list-${savedLists.length}`, jsonData);
   };
 
   const moveCardToTop = (id) => {
@@ -110,7 +115,6 @@ const VideoGameList = () => {
               </h2>
             </div>
           )}
-          
           <div className="flex justify-center mb-4">
             <button
               onClick={toggleFormVisibility}
@@ -118,9 +122,7 @@ const VideoGameList = () => {
             >
               {isFormVisible ? 'Hide Form' : 'Show Form'}
             </button>
-            
           </div>
-          
           {isFormVisible && (
           <div className="flex justify-center">
             <div className="w-full lg:w-3/4">
@@ -131,7 +133,27 @@ const VideoGameList = () => {
             </div>
           </div>
         )}
-          
+          {savedLists.length > 0 && (
+            <div className="mt-4">
+              <h3 className="text-lg font-semibold">Saved Lists:</h3>
+              <ul>
+                {savedLists.map((list, index) => (
+                  <li key={index} className="mt-2">
+                    <a
+                      href="#"
+                      onClick={() => {
+                        const jsonData = localStorage.getItem(`list-${list.index}`);
+                        setListName(list.name);
+                        setVideoGames(JSON.parse(jsonData));
+                      }}
+                    >
+                      {list.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
         <div className="w-full p-4 lg:w-3/5">
           <div className="flex justify-center mb-4">
