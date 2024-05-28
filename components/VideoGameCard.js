@@ -36,7 +36,7 @@ const VideoGameCard = ({ videoGames = [], onClick }) => {
 
   return (
     <div className="container grid items-center justify-center gap-2 grid-cols">
-      {videoGames.map((videoGame, index) => (
+      {videoGames.map((videoGame) => (
         <div 
           key={videoGame.id}
           data-id={videoGame.id} 

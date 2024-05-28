@@ -2,47 +2,57 @@ import { useEffect, useState } from 'react';
 import VideoGameCard from './VideoGameCard';
 import VideoGameForm from './VideoGameForm';
 import useDragAndDrop from '../hooks/useDragAndDrop';
+import videoGamesData from '../lib/data'
 
 const VideoGameList = () => {
   const [videoGames, setVideoGames] = useState([]);
+  // const [videoGames, setVideoGames] = useState(() => {
+  //   const savedVideoGames = localStorage.getItem('videoGames');
+  //   return savedVideoGames ? JSON.parse(savedVideoGames) : videoGamesData;
+  // });
   const [listName, setListName] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-  console.log('API URL:', apiUrl);
+  // const [loading, setLoading] = useState(true);
+  // const [error, setError] = useState(null);
+  // const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  // console.log('API URL:', apiUrl);
+
+  // api call to backend to get video games
+  // useEffect(() => {
+  //   fetch(`${apiUrl}/videoGames`)
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error('Network response was not ok');
+  //       }
+  //       return response.json();
+  //     })
+  //     .then(data => {
+  //       console.log('Fetched video games:', data);
+  //       setVideoGames(data);
+  //       setLoading(false);
+  //     })
+  //     .catch(error => {
+  //       setError(error.message);
+  //       setLoading(false);
+  //     });
+  // }, []);
 
   useEffect(() => {
-    fetch(`${apiUrl}/videoGames`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Fetched video games:', data); // Debugging log
-        setVideoGames(data);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Fetch error:', error); // Debugging log
-        setError(error.message);
-        setLoading(false);
-      });
-  }, []);
+    setVideoGames(videoGamesData)
+  }, [])
 
   useDragAndDrop(videoGames, setVideoGames);
   
   const toggleFormVisibility = () => {
     setIsFormVisible(!isFormVisible);
   };
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
+  // if (error) {
+  //   return <div>Error: {error}</div>;
+  // }
 
   const handleFormSubmit = (newVideoGames, newListName) => {
     setVideoGames(newVideoGames);
@@ -50,20 +60,26 @@ const VideoGameList = () => {
     setListName(newListName);
   };
   
+  // api call to backend to save videogames
+  // const saveListOrder = () => {
+  //   console.log('Video games order before saving:', videoGames);
+  //   fetch('http://localhost:8082/saveVideoGames', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(videoGames)
+  //   })
+  //   .then(response => response.json())
+  //   .then(data => {
+  //     console.log('Response from backend:', data); // Log the response from the backend
+  //   })
+  //   .catch(error => console.error('Error saving video games:', error));
+  // };
+
   const saveListOrder = () => {
     console.log('Video games order before saving:', videoGames);
-    fetch('http://localhost:8082/saveVideoGames', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(videoGames)
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Response from backend:', data); // Log the response from the backend
-    })
-    .catch(error => console.error('Error saving video games:', error));
+    // localStorage.setItem('videoGames', JSON.stringify(videoGames));
   };
 
 
@@ -100,6 +116,7 @@ const VideoGameList = () => {
         <div className="w-full p-4 lg:w-2/3">
           <VideoGameCard 
             videoGames={videoGames}
+            onClick={() => {}}
           />
         </div>
       </div>
