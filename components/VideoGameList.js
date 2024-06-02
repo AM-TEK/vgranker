@@ -105,9 +105,9 @@ const VideoGameList = () => {
   
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="flex flex-col w-full h-full max-w-2xl overflow-y-auto bg-gray-300 rounded-lg lg:flex-row">
-        <div className="w-full p-4 lg:w-2/5">
+    <div className="flex items-center justify-center h-screen bg-center bg-no-repeat bg-cover bg-gradient-grid">
+      <div className="flex flex-col w-full h-full max-w-md overflow-y-auto bg-gray-300 rounded-lg">
+        <div className="w-full p-4">
           {listName && (
             <div className='mb-4 text-center'>
               <h2 className="mt-4 text-xl font-semibold">
@@ -118,7 +118,7 @@ const VideoGameList = () => {
           <div className="flex justify-center mb-4">
             <button
               onClick={toggleFormVisibility}
-              className="px-4 py-2 text-white bg-black border rounded hover:bg-gray-600"
+              className="px-4 py-2 text-white border rounded bg-[#8c11a2] hover:bg-gray-600"
             >
               {isFormVisible ? 'Hide Form' : 'Show Form'}
             </button>
@@ -155,11 +155,11 @@ const VideoGameList = () => {
             </div>
           )}
         </div>
-        <div className="w-full p-4 lg:w-3/5">
+        <div className="w-full p-4">
           <div className="flex justify-center mb-4">
             <button
               onClick={saveListOrder}
-              className="px-4 py-2 text-white bg-blue-600 border rounded hover:bg-blue-800"
+              className="px-4 py-2 text-white bg-[#02789c] border rounded hover:bg-blue-800"
             >
               Save List
             </button>

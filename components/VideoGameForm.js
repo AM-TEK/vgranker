@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import VideoGameInputs from './VideoGameInputs';
+import videoGamesData from '../lib/data'
 
 const VideoGameForm = ({ videoGames, onFormSubmit }) => {
   const [formData, setFormData] = useState({
@@ -11,6 +12,8 @@ const VideoGameForm = ({ videoGames, onFormSubmit }) => {
   });
   const [numVideoGames, setNumVideoGames] = useState(1);
   const [listName, setListName] = useState('');
+  const platforms = [...new Set(videoGamesData.map((game) => game.platform))];
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,7 +35,7 @@ const VideoGameForm = ({ videoGames, onFormSubmit }) => {
         index={index}
         formData={formData}
         handleChange={handleChange}
-        
+        platforms={platforms}
       />
     ));
   };
@@ -94,7 +97,7 @@ const VideoGameForm = ({ videoGames, onFormSubmit }) => {
       }
       
       <div className="mb-4">
-        <div className="w-full mx-auto">
+        <div className="w-4/5 mx-auto">
           <label htmlFor="numVideoGames" className="block text-sm font-medium text-gray-700">
             Number of Video Games <span className="text-red-500">*</span>
           </label>
@@ -104,7 +107,7 @@ const VideoGameForm = ({ videoGames, onFormSubmit }) => {
             name="numVideoGames"
             value={numVideoGames}
             onChange={handleNumVideoGamesChange}
-            className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            className="block w-1/5 mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
             {[...Array(20)].map((_, index) => (
               <option key={index} value={index + 1}>
@@ -117,7 +120,7 @@ const VideoGameForm = ({ videoGames, onFormSubmit }) => {
       </div>
       
       <div className="mb-4">
-        <div className="w-full mx-auto">
+        <div className="w-4/5 mx-auto">
           <label htmlFor="listName" className="block text-sm font-medium text-gray-700">
             Video Game List Name
           </label>
@@ -132,12 +135,14 @@ const VideoGameForm = ({ videoGames, onFormSubmit }) => {
         </div>
       </div>
       {renderGameInputs()}
-      <button
-        type="submit"
-        className="inline-flex items-center px-4 py-2 mb-5 text-base font-medium text-white bg-black border border-transparent rounded-md shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      >
-        Add List
-      </button>
+      <div className="flex justify-center"> {/* Centering the button */}
+        <button
+          type="submit"
+          className="inline-flex items-center px-4 py-2 text-base font-medium text-white bg-[#8c11a2] border border-transparent rounded-md shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+          Add List
+        </button>
+      </div>
     </form>
   );
 };
