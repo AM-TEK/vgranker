@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import VideoGameInputs from './VideoGameInputs';
+import NumVideoGamesInput from './NumVideoGamesInput';
+import ListNameVideoGameInput from './ListNameVideoGameInput';
 import videoGamesData from '../lib/data'
 
-const VideoGameForm = ({ videoGames, onFormSubmit }) => {
+const VideoGameForm = ({ onFormSubmit }) => {
   const [formData, setFormData] = useState({
     title: '',
     developer: '',
     year: '',
     platform: '',
   });
-  const [numVideoGames, setNumVideoGames] = useState(1);
+  const [numVideoGames, setNumVideoGames] = useState(3);
   const [listName, setListName] = useState('');
   const platforms = [...new Set(videoGamesData.map((game) => game.platform))];
 
@@ -28,6 +30,53 @@ const VideoGameForm = ({ videoGames, onFormSubmit }) => {
     setNumVideoGames(value === '' ? '' : parseInt(value, 10));
   };  
 
+  const createVideoGamesArray = () => {
+    return Array.from({ length: numVideoGames }, (_, index) => {
+      const title = formData[`title${index}`];
+      const developer = formData[`developer${index}`];
+      const yearValue = formData[`year${index}`];
+      const platform = formData[`platform${index}`];
+
+      const year = yearValue ? parseInt(yearValue, 10) : null;
+      if (yearValue && isNaN(year)) {
+        alert('Year must be a number');
+        throw new Error('Year must be a number');
+      }
+      return {
+        id: uuidv4(),
+        title,
+        developer,
+        year,
+        platform,
+      };
+    }).filter(game => game !== null);
+  };
+
+  const validateForm = () => {
+    for (let i = 0; i < numVideoGames; i++) {
+      if (formData[`title${i}`]?.trim() === '') {
+        alert('Title is required');
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      const newVideoGames = createVideoGamesArray();
+      onFormSubmit(newVideoGames, listName);
+      resetForm();
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({});
+    setNumVideoGames(3);
+    setListName('');
+  };
+
   const renderGameInputs = () => {
     return Array.from({ length: numVideoGames }).map((_, index) => (
       <VideoGameInputs
@@ -40,52 +89,6 @@ const VideoGameForm = ({ videoGames, onFormSubmit }) => {
     ));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    let isFormValid = true;
-    for (let i = 0; i < numVideoGames; i++) {
-      if (formData[`title${i}`].trim() === '') {
-        isFormValid = false;
-        break;
-      }
-    }
-    if (isFormValid) {
-      const newVideoGames = Array.from({ length: numVideoGames }, (_, index) => {
-        const title = formData[`title${index}`];
-        const developer = formData[`developer${index}`];
-        const yearValue = formData[`year${index}`];
-        const platform = formData[`platform${index}`];
-
-        // Directly parse the year from the form data and validate
-        const year = yearValue ? parseInt(yearValue, 10) : null;
-        if (yearValue && isNaN(year)) {
-          alert('Year must be a number');
-          throw new Error('Year must be a number');
-        }
-
-        return {
-          id: uuidv4(),
-          title,
-          developer,
-          year,
-          platform,
-        };
-      }).filter(game => game !== null);
-
-      onFormSubmit(newVideoGames, listName);
-      setFormData({
-        title: '',
-        developer: '',
-        year: '',
-        platform: '',
-      });
-      setNumVideoGames(1);
-      setListName('');
-    } else {
-      alert('Title is required');
-    }
-  };
-
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto">
       {listName && 
@@ -95,45 +98,8 @@ const VideoGameForm = ({ videoGames, onFormSubmit }) => {
           </h2>
         </div>
       }
-      
-      <div className="mb-4">
-        <div className="w-4/5 mx-auto">
-          <label htmlFor="numVideoGames" className="block text-sm font-medium text-gray-700">
-            Number of Video Games <span className="text-red-500">*</span>
-          </label>
-          
-          <select
-            id="numVideoGames"
-            name="numVideoGames"
-            value={numVideoGames}
-            onChange={handleNumVideoGamesChange}
-            className="block w-1/5 mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          >
-            {[...Array(20)].map((_, index) => (
-              <option key={index} value={index + 1}>
-                {index + 1}
-              </option>
-            ))}
-          </select>
-          
-        </div>
-      </div>
-      
-      <div className="mb-4">
-        <div className="w-4/5 mx-auto">
-          <label htmlFor="listName" className="block text-sm font-medium text-gray-700">
-            Video Game List Name
-          </label>
-          <input
-            type="text"
-            id="listName"
-            name="listName"
-            value={listName}
-            onChange={(e) => setListName(e.target.value)}
-            className="block w-full mb-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          />
-        </div>
-      </div>
+      <NumVideoGamesInput numVideoGames={numVideoGames} onChange={handleNumVideoGamesChange} />
+      <ListNameVideoGameInput listName={listName} onChange={(e) => setListName(e.target.value)} />
       {renderGameInputs()}
       <div className="flex justify-center"> {/* Centering the button */}
         <button

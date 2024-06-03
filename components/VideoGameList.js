@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import VideoGameCard from './VideoGameCard';
 import VideoGameForm from './VideoGameForm';
+import SavedLists from './SavedLists';
 import useDragAndDrop from '../hooks/useDragAndDrop';
-import useMoveToTop from '../hooks/useMoveToTop';
+import useMoveCardToTop from '@/hooks/useMoveCardToTop';
 import videoGamesData from '../lib/data'
 
 const VideoGameList = () => {
@@ -37,7 +38,11 @@ const VideoGameList = () => {
     setVideoGames(videoGamesData)
   }, [])
 
+  const memoizedVideoGames = useMemo(() => videoGames, [videoGames]);
+  
   useDragAndDrop(videoGames, setVideoGames);
+
+  const moveCardToTop = useMoveCardToTop(setVideoGames);
   
   const toggleFormVisibility = () => {
     setIsFormVisible(!isFormVisible);
@@ -87,26 +92,10 @@ const VideoGameList = () => {
     setSavedLists([...savedLists, newList]);
     localStorage.setItem(`list-${savedLists.length}`, jsonData);
   };
-
-  const moveCardToTop = (id) => {
-    setVideoGames((prevVideoGames) => {
-      const cardIndex = prevVideoGames.findIndex((card) => card.id === id);
-      if (cardIndex === -1) return prevVideoGames;
   
-      const card = prevVideoGames[cardIndex];
-      const updatedVideoGames = [
-        card,
-        ...prevVideoGames.slice(0, cardIndex),
-        ...prevVideoGames.slice(cardIndex + 1),
-      ];
-      return updatedVideoGames;
-    });
-  };
-  
-
   return (
     <div className="flex items-center justify-center h-screen bg-center bg-no-repeat bg-cover bg-gradient-grid">
-      <div className="flex flex-col w-full h-full max-w-md overflow-y-auto bg-gray-300 rounded-lg">
+      <div className="flex flex-col w-full h-full max-w-md overflow-y-auto bg-gray-400 rounded-lg">
         <div className="w-full p-4">
           {listName && (
             <div className='mb-4 text-center'>
@@ -124,35 +113,21 @@ const VideoGameList = () => {
             </button>
           </div>
           {isFormVisible && (
-          <div className="flex justify-center">
-            <div className="w-full lg:w-3/4">
-              <VideoGameForm
-                videoGames={videoGames}
-                onFormSubmit={handleFormSubmit}
-              />
+            <div className="flex justify-center">
+              <div className="w-full lg:w-3/4">
+                <VideoGameForm
+                  videoGames={memoizedVideoGames}
+                  onFormSubmit={handleFormSubmit}
+                />
+              </div>
             </div>
-          </div>
-        )}
+          )}
           {savedLists.length > 0 && (
-            <div className="mt-4">
-              <h3 className="text-lg font-semibold">Saved Lists:</h3>
-              <ul>
-                {savedLists.map((list, index) => (
-                  <li key={index} className="mt-2">
-                    <a
-                      href="#"
-                      onClick={() => {
-                        const jsonData = localStorage.getItem(`list-${list.index}`);
-                        setListName(list.name);
-                        setVideoGames(JSON.parse(jsonData));
-                      }}
-                    >
-                      {list.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <SavedLists
+              savedLists={savedLists}
+              setListName={setListName}
+              setVideoGames={setVideoGames}
+            />
           )}
         </div>
         <div className="w-full p-4">
@@ -165,7 +140,7 @@ const VideoGameList = () => {
             </button>
           </div>
           <VideoGameCard 
-            videoGames={videoGames}
+            videoGames={memoizedVideoGames}
             onClick={() => {}}
             onMoveToTop={moveCardToTop}
           />

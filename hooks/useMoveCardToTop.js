@@ -1,9 +1,7 @@
-import { useState } from 'react';
+import { useCallback } from 'react';
 
-const useMoveToTop = (initialVideoGames) => {
-  const [videoGames, setVideoGames] = useState(initialVideoGames);
-
-  const moveCardToTop = (id) => {
+const useMoveCardToTop = (setVideoGames) => {
+  const moveCardToTop = useCallback((id) => {
     setVideoGames((prevVideoGames) => {
       const cardIndex = prevVideoGames.findIndex((card) => card.id === id);
       if (cardIndex === -1) return prevVideoGames;
@@ -16,9 +14,9 @@ const useMoveToTop = (initialVideoGames) => {
       ];
       return updatedVideoGames;
     });
-  };
+  }, [setVideoGames]);
 
-  return { videoGames, moveCardToTop };
+  return moveCardToTop;
 };
 
-export default useMoveToTop;
+export default useMoveCardToTop;
