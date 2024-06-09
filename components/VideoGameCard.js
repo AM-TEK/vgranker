@@ -29,7 +29,7 @@ const VideoGameCard = ({ videoGames = [], onClick, onMoveToTop }) => {
             <button
               onClick={(e) => {
                 e.stopPropagation();
-                onMoveToTop(videoGame.id);
+                onMoveToTop(id);
               }}
               className="absolute p-1 bg-gray-200 rounded-full bottom-2 left-2"
             >
