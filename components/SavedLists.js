@@ -7,10 +7,10 @@ const SavedLists = ({ savedLists, setListName, setVideoGames }) => {
 
   return (
     <div className="mt-4">
-      <h3 className="text-lg font-semibold">Saved Lists:</h3>
+      <h3 className="text-lg font-semibold text-white">Saved Lists:</h3>
       <ul>
         {savedLists.map((list, index) => (
-          <li key={index} className="mt-2">
+          <li key={index} className="mt-2 text-white">
             <a
               href="#"
               onClick={() => handleLoadList(list.index, list.name)}

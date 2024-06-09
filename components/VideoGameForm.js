@@ -104,7 +104,7 @@ const VideoGameForm = ({ onFormSubmit }) => {
       <div className="flex justify-center"> {/* Centering the button */}
         <button
           type="submit"
-          className="inline-flex items-center px-4 py-2 text-base font-medium text-white bg-[#8c11a2] border border-transparent rounded-md shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="inline-flex items-center px-4 py-2 text-base font-semibold text-white bg-[#8c11a2] border rounded shadow-sm hover:bg-gray-600"
         >
           Add List
         </button>

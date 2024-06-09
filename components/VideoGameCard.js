@@ -12,7 +12,7 @@ const VideoGameCard = ({ videoGames = [], onClick, onMoveToTop }) => {
   }
 
   return (
-    <div className="container grid items-center justify-center gap-2 grid-cols">
+    <div className="container grid items-center justify-center gap-4 grid-cols">
       {videoGames.map(({ id, title, developer, platform, year }) => (
         <div 
           key={id}
@@ -31,7 +31,7 @@ const VideoGameCard = ({ videoGames = [], onClick, onMoveToTop }) => {
                 e.stopPropagation();
                 onMoveToTop(id);
               }}
-              className="absolute p-1 bg-gray-200 rounded-full bottom-2 left-2"
+              className="absolute p-1 bg-gray-200 rounded-full bottom-2 left-2 hover:bg-gray-400"
             >
               <FaArrowUp />
             </button>

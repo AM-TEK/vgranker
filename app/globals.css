@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  @apply tracking-wide;
+}
+
 .dragging {
   opacity: 0.5;
 }
